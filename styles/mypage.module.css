@@ -1,0 +1,10 @@
+.text {
+  color: brown;
+  font-family: cursive;
+}
+.image {
+  height: 200px;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: silver;
+}
