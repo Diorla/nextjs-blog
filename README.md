@@ -93,3 +93,102 @@ import styles from "./components/Layout.module.css";
 - First, create a file `_app.js` inside `/pages`
 - Import `.css` file into `_app.js` file.
 - Any css file that is imported into `_app.js` will be applied to all the pages.
+
+# Pre-rendering
+
+Generally, Nextjs pre-renders every page, this means an html file is generated for each page at the server side, which in turn prevent too much js work at the client side and SEO. This means unlike normal reactjs, even if you disable your js, the page will still load with minimal functionalities.
+So if/when the page is loaded, other necessary js code is applied to make it fully interactive.
+There are two types of rendering, `Static Generation` and `Sever-side Rendering`.
+
+## Comparison
+
+This means the html file is generated when the page is built ie. after `npm run build`. Any request made by the client(s) will fetch the same page.
+Server-side rendering on the other hand, changes depending on who is making the request. So the pre-rendering will take into account current circumstances.
+Note, different pages may implement different types of pre-rendering depending on your demands. e.g. welcome page and about page may have static generation while user dashboard may have server side rendering.
+
+## Static Generation
+
+- Marketing pages and product listing
+- Blog post
+- Help and documentation etc.
+  All the pages without data like the ones we've been creating are static by nature.
+  If we want to create a static page that uses data e.g. load external image, we use `getStaticProps`
+
+### getStaticProps
+
+It will only run on the server-side and none of its code will be sent to the browser, only the products will be sent. This means you can make direct queries into database, fetch data from other pages etc without an overhead on the browser side or security concerns.
+Note, during development, it runs on every request and only one is allowed per page.
+
+## Client rendering
+
+Now, even if a page requires unique data on each request, it may still better to use static generation. This approach works by rendering a basic structure and then filling it up with data afterwards e.g user profile.
+This is not new and has been implemented in cases like `AJAX` or `jquery.get()` etc, and the good news is that it should hurt your SEO because it's not relevant to the part of your page that search engines indexes.
+
+### SWR
+
+A library by `nextjs` team for fetching data. Perhaps, it will work better in nextjs than other library like `node-fetch`. One of the benefit of `swr` is that it first return a stale data from cache before sending fetch request and then updating the data again, making sure users don't have to wait.
+
+```js
+/**
+ * {string} source - points to the source of the data
+ * {function} fetcher - an async function that tells which manner by which swr should get the data.
+ * {object} options? - provide extra information.
+* /
+`swr(source, fetcher)`
+```
+
+```jsx
+import { Suspense } from "react";
+import useSWR from "swr";
+
+const Profile = () => {
+  // uses js fetch to get the data
+  const { data, error } = useSWR("/api/user", fetch, { suspense: true });
+
+  if (error) return <div>Failed to load page</div>;
+  return <div>Welcome {data.name}</div>;
+};
+
+const App = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Profile />
+    </Suspense>
+  );
+};
+```
+
+By default, `swr` assumes `REST` api, but we can also use other mathod like `graphql`
+
+```jsx
+import { request } from "graphql-request";
+import useSWR from "swr";
+
+const API = "https://api.graph.cool/simple/v1/movies";
+
+const MovieActors = () => {
+  const { data, error } = useSWR(
+    `{
+      Movie(title: "Inception") {
+        actors {
+          id
+          name
+        }
+      }
+    }`,
+    (query) => request(API, query)
+  );
+};
+
+if (error) return <div>Failed to load page</div>;
+if (!data) return <div>Loading...</div>;
+return data.actors.map((actor) => <li key={actor.id}>{actor.name}</li>);
+```
+
+There are other functions from `swr` like `SWRConfig`, `mutate`
+
+## Server-side rendering
+
+## YAML
+
+The `.md` files inside `/posts` will be processed into html by using `gray-matter`, a YAML Front Matter library.
