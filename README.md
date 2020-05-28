@@ -192,3 +192,6 @@ There are other functions from `swr` like `SWRConfig`, `mutate`
 ## YAML
 
 The `.md` files inside `/posts` will be processed into html by using `gray-matter`, a YAML Front Matter library.
+
+# Dynamic routes
+Dynamic pages are created using square brackets, e.g. `/pages/posts/[id].js`. Hence, `id` is not predetermined can could be anything.

@@ -23,7 +23,7 @@ const Nav = () => (
             </Link>
           </li>
         ))}
-      </ul>
+        </ul>
     </ul>
 
     <style jsx>{`
