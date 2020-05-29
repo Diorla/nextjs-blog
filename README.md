@@ -194,4 +194,27 @@ There are other functions from `swr` like `SWRConfig`, `mutate`
 The `.md` files inside `/posts` will be processed into html by using `gray-matter`, a YAML Front Matter library.
 
 # Dynamic routes
+
 Dynamic pages are created using square brackets, e.g. `/pages/posts/[id].js`. Hence, `id` is not predetermined can could be anything.
+
+Note, it's also possible to nest our dynamic routes e.g.
+
+`/pages/posts/[...id].js` (with three dots) would match
+
+- `/posts/hello`
+- `/posts/hello/world`
+- `/posts/hello/world/next`
+  But the return statement like the one under `/lib/posts.js` will be slightly different
+
+```js
+return {
+  params: {
+    //id: fileName.replace(/\.md$/, ""),
+    id: ['a', 'b', 'c']
+  },
+};
+```
+where `a/b/c` is a real filepath
+
+## Error page
+To customise your own error page, just create `/pages/404.js`.

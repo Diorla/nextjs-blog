@@ -1,6 +1,7 @@
 //@ts-check
 import { getSortedPostsData } from "../lib/posts";
-import Layout from "../components/layout";
+import Layout from "../components/Layout";
+import Date from "../components/Date";
 import Link from "next/link";
 // @ts-ignore
 import styles from "./../styles/mypage.module.css";
@@ -16,7 +17,7 @@ export default ({ allPostsData }) => (
               <a>{title}</a>
             </Link>
             <br />
-            {date}
+            <Date dateString={date}/>
           </li>
         ))}
       </ul>
