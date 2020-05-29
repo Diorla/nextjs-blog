@@ -1,33 +1,31 @@
-import Layout from '../../components/layout'
-import { getAllPostIds, getPostData } from '../../lib/posts'
+import Layout from "../../components/layout";
+import { getAllPostIds, getPostData } from "../../lib/posts";
 
 export default function Post({ postData }) {
   return (
-    <Layout>
+    <Layout title={postData.title}>
       {postData.title}
       <br />
-      {postData.id}
-      <br />
       {postData.date}
-      <br/>
-      <div dangerouslySetInnerHTML={{__html: postData.contentHtml}}/>
+      <br />
+      <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
     </Layout>
-  )
+  );
 }
 
 export async function getStaticPaths() {
-  const paths = getAllPostIds()
+  const paths = getAllPostIds();
   return {
     paths,
-    fallback: false
-  }
+    fallback: false,
+  };
 }
 
 export async function getStaticProps({ params }) {
-  const postData = await getPostData(params.id)
+  const postData = await getPostData(params.id);
   return {
     props: {
-      postData
-    }
-  }
+      postData,
+    },
+  };
 }

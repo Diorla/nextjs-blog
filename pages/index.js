@@ -1,36 +1,21 @@
 //@ts-check
 import Layout from "../components/layout";
-import { getSortedPostsData } from "../lib/posts";
 import Link from "next/link";
+// @ts-ignore
+import styles from "./../styles/mypage.module.css";
 
-export default function Home({ allPostsData }) {
+export default function Home() {
   return (
     <Layout title="Dynamic routes">
-      <section>
-        <h2>Blog</h2>
-        <ul>
-          {allPostsData.map(({ id, date, title }) => (
-            <li key={id}>
-              <Link href={`/posts/${id}`}>
-                <a>{title}</a>
-              </Link>
-              <br />
-              {id}
-              <br />
-              {date}
-            </li>
-          ))}
-        </ul>
-      </section>
+      <div className={styles.center}>
+        <h1>Welcome to my blogs</h1>
+        <div>
+          <Link href="/posts">
+            <a>Click here</a>
+          </Link>{" "}
+          to check out my posts
+        </div>
+      </div>
     </Layout>
   );
-}
-
-export async function getStaticProps() {
-  const allPostsData = getSortedPostsData();
-  return {
-    props: {
-      allPostsData,
-    },
-  };
 }
