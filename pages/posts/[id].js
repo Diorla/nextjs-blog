@@ -1,12 +1,12 @@
 //@ts-check
-import Layout from "../../components/layout";
+import Layout from "../../components/Layout";
 import { getAllPostIds, getPostData } from "../../lib/posts";
 import Date from "../../components/Date"
 
 export default function Post({ postData }) {
   return (
     <Layout title={postData.title}>
-      {postData.title}
+      <h2>{postData.title}</h2>
       <br />
       <Date dateString={postData.date}/>
       <br />

@@ -218,3 +218,17 @@ where `a/b/c` is a real filepath
 
 ## Error page
 To customise your own error page, just create `/pages/404.js`.
+
+# Api routes
+It is possible to create an endpoint on your webpage, that merely sends data, so that you and other websites can interact with it.
+
+This is similar to the way accuweather sends weather report or imdb sends movie information.
+
+Note, if you want to fetch data from this `API`, don't use `getStaticProps` or  `getStaticPaths` because they only work on the server and will never work on the client side. And since fetching data via `API` is done at the client side, it's counter productive.
+
+Like any page, api routes may be dynamic as well
+
+## Possible uses
+- Form validation
+- Intermediate between webpage and database
+- Preview mode
