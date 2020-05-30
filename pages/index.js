@@ -15,7 +15,7 @@ export default function Home() {
       setApi(myJson);
     });
   return (
-    <Layout title="API routes">
+    <Layout title="Learning next.js">
       <div className={styles.center}>
         <h1>Welcome to my blogs</h1>
         <div>Api fetch: {api.text}</div>
